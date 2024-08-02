@@ -18,7 +18,7 @@ const TrustedIconsCarousel = () => {
     useEffect(() => {
         intervalRef.current = setInterval(() => {
             setActiveIndex((current) => (current + 1) % icons.length);
-        }, 3000); // Change icon every 3 seconds
+        }, 800); // Change icon every 3 seconds
 
         // Cleanup the interval on component unmount
         return () => {
@@ -39,14 +39,20 @@ const TrustedIconsCarousel = () => {
     };
 
     return (
-        <div className="flex justify-center items-center space-x-4 p-5"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}>
-            {icons.map((item, index) => (
-                <div key={index} className={`transition-opacity duration-500 ${index === activeIndex ? 'opacity-100' : 'opacity-20'}`}>
-                    {item.icon}
-                </div>
-            ))}
+        <div className="m-2">
+            <div className="m-2">
+                <h2 className="text-xl font-bold text-center">Trusted by thousands of fast-scaling organizations around the globe
+                </h2>
+            </div>
+            <div className="flex justify-center items-center space-x-4 p-5"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}>
+                {icons.map((item, index) => (
+                    <div key={index} className={`transition-opacity duration-500 ${index === activeIndex ? 'opacity-100' : 'opacity-20'}`}>
+                        {item.icon}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
