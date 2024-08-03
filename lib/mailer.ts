@@ -145,6 +145,14 @@ export const sendVerificationEmail = async (to: string, code: string) => {
                   </td>
                 </tr>
                 <tr>
+                  <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+                    <p style="margin: 0;">Or use the verification code below:</p>
+                    <div style="text-align: center; margin: 20px 0;">
+                      <span style="display: inline-block; padding: 10px 20px; font-size: 24px; font-weight: bold; color: #ffffff; background-color: #4CAF50; border-radius: 5px;">${code}</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
                   <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
                     <p style="margin: 0;">Cheers,<br> Our Service Team</p>
                   </td>
@@ -157,7 +165,7 @@ export const sendVerificationEmail = async (to: string, code: string) => {
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                 <tr>
                   <td align="center" bgcolor="black" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-                    <p style="margin: 0;">You received this email because we received a request for [type_of_action] for your account. If you didn't request [type_of_action] you can safely delete this email.</p>
+                    <p style="margin: 0;">You received this email because we received a request for verification for your account. If you didn't request this, you can safely delete this email.</p>
                   </td>
                 </tr>
                 <tr>

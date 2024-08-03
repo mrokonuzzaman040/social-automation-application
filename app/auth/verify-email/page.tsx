@@ -3,7 +3,7 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import Navbar from "../../components/Navbar"; // Import your Navbar component
+import Navbar from "../../components/Navbar";
 
 export default function VerifyEmail() {
     const [code, setCode] = useState("");
@@ -29,7 +29,7 @@ export default function VerifyEmail() {
             if (response.ok) {
                 setMessage("Email verified successfully!");
                 setTimeout(() => {
-                    router.push("/auth/signin"); // Redirect to sign-in page after successful verification
+                    router.push("/auth/signin");
                 }, 2000);
             } else {
                 setError(data.error);
@@ -53,7 +53,7 @@ export default function VerifyEmail() {
             transition={{ duration: 10, repeat: Infinity }}
         >
             {/* Navbar */}
-            <Navbar /> {/* Use your Navbar component here */}
+            <Navbar />
 
             {/* Main Content */}
             <div className="flex flex-col items-center justify-center flex-grow">
