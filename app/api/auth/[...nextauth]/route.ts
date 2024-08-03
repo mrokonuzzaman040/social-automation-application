@@ -61,8 +61,8 @@ const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
   },
   pages: {
-    signIn: "/auth/signin",
-    newUser: "/auth/signup",
+    signIn: "/auth/sign-in",
+    newUser: "/auth/sign-up",
   },
   callbacks: {
     async session({ session, token }) {

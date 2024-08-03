@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, getProviders, ClientSafeProvider } from "next-auth/react";
-import { useEffect } from "react";
-import { FaGoogle, FaFacebook, FaLinkedin, FaInstagram, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaLinkedin, FaInstagram, FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Navbar from "../../components/Navbar"; // Import your Navbar component
 
@@ -19,6 +18,7 @@ export default function Signup() {
     const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<string>("");
     const [providers, setProviders] = useState<Record<string, ClientSafeProvider>>({});
+    const [loading, setLoading] = useState(false); // State to manage loading state
     const router = useRouter();
 
     useEffect(() => {
@@ -51,7 +51,9 @@ export default function Signup() {
             return false;
         }
         if (!validatePassword(formData.password)) {
-            setError("Password must be at least 8 characters long, contain uppercase and lowercase letters, a number, and a special character");
+            setError(
+                "Password must be at least 8 characters long, contain uppercase and lowercase letters, a number, and a special character"
+            );
             return false;
         }
         if (formData.password !== formData.confirmPassword) {
@@ -65,6 +67,8 @@ export default function Signup() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (!validateForm()) return;
+
+        setLoading(true); // Set loading state to true when form submission starts
 
         try {
             const response = await fetch("/api/auth/signup", {
@@ -87,7 +91,13 @@ export default function Signup() {
         } catch (error) {
             setError("Failed to sign up");
             console.error("Signup error:", error);
+        } finally {
+            setLoading(false); // Reset loading state to false when submission is complete
         }
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword((prev) => !prev);
     };
 
     return (
@@ -104,7 +114,7 @@ export default function Signup() {
             transition={{ duration: 10, repeat: Infinity }}
         >
             {/* Navbar */}
-            <Navbar /> {/* Use your Navbar component here */}
+            <Navbar />
 
             {/* Main Content */}
             <div className="flex flex-col items-center justify-center flex-grow">
@@ -142,7 +152,7 @@ export default function Signup() {
                                 />
                                 <button
                                     type="button"
-                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    onClick={togglePasswordVisibility}
                                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600"
                                 >
                                     {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
@@ -159,7 +169,7 @@ export default function Signup() {
                                 />
                                 <button
                                     type="button"
-                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    onClick={togglePasswordVisibility}
                                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600"
                                 >
                                     {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
@@ -167,9 +177,11 @@ export default function Signup() {
                             </div>
                             <button
                                 type="submit"
-                                className="bg-blue-600 text-white p-4 rounded-lg hover:bg-blue-700 transition-colors"
+                                className={`flex items-center justify-center bg-blue-600 text-white p-4 rounded-lg hover:bg-blue-700 transition-colors ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                disabled={loading} // Disable button when loading
                             >
-                                Sign Up
+                                {loading ? <FaSpinner className="animate-spin mr-2" /> : null}
+                                {loading ? 'Signing Up...' : 'Sign Up'}
                             </button>
                         </form>
                         <div className="flex flex-col items-center mt-8">

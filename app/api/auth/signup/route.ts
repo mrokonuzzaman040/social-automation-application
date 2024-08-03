@@ -1,17 +1,17 @@
-// pages/api/auth/signup.ts
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/mongodb";
-import User, { IUser } from "@/models/User";
+import User from "@/models/User";
 import { sendVerificationEmail } from "@/lib/mailer";
 
 // Function to handle POST requests for user signup
 export async function POST(req: NextRequest) {
-  const { name, email, password } = await req.json();
-
-  await dbConnect();
-
   try {
+    // Parse the request body to get the user details
+    const { name, email, password } = await req.json();
+
+    await dbConnect();
+
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -29,14 +29,27 @@ export async function POST(req: NextRequest) {
       100000 + Math.random() * 900000
     ).toString();
 
-    // Create a new user
-    const newUser: IUser = new User({
+    // Get the timestamp and the IP address of the requester
+    const timestamp = new Date();
+    const ipAddress =
+      req.headers.get("x-forwarded-for") ||
+      req.headers.get("remote-address") ||
+      "unknown";
+
+    // Create a new user with all required fields
+    const newUser = new User({
       name,
       email,
       password: hashedPassword,
       verificationCode,
       isVerified: false,
+      timestamp,
+      ipAddress,
     });
+
+    // Debug: Log the user data before saving to verify all fields
+    console.log("New User Data:", newUser);
+
     await newUser.save();
 
     // Send verification email

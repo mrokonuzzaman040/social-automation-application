@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, getProviders, ClientSafeProvider } from "next-auth/react";
-import { useEffect } from "react";
-import { FaGoogle, FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaLinkedin, FaInstagram, FaSpinner } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Navbar from "../../components/Navbar"; // Import your Navbar component
 
@@ -14,7 +13,7 @@ export default function Signin() {
         password: "",
     });
     const [error, setError] = useState<string>("");
-    const [success, setSuccess] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const [providers, setProviders] = useState<Record<string, ClientSafeProvider>>({});
     const router = useRouter();
 
@@ -49,6 +48,8 @@ export default function Signin() {
         e.preventDefault();
         if (!validateForm()) return;
 
+        setLoading(true); // Set loading state
+
         try {
             const response = await signIn("credentials", {
                 redirect: false,
@@ -58,14 +59,20 @@ export default function Signin() {
 
             if (response?.error) {
                 setError(response.error);
+
+                // Redirect to verification page if user is not verified
+                if (response.error === "User not verified") {
+                    router.push("/auth/verify-email");
+                }
             } else {
-                setSuccess("Signed in successfully!");
                 setError("");
-                router.push("/dashboard"); // Redirect to the dashboard or a protected page after successful sign-in
+                router.push("/dashboard"); // Redirect to the dashboard after successful sign-in
             }
         } catch (error) {
             setError("Failed to sign in");
             console.error("Signin error:", error);
+        } finally {
+            setLoading(false); // Reset loading state
         }
     };
 
@@ -92,7 +99,6 @@ export default function Signin() {
                     <div className="backdrop-blur-md bg-white/30 shadow-lg rounded-lg p-12 w-full max-w-lg">
                         <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">Sign In</h1>
                         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-                        {success && <p className="text-green-500 text-center mb-4">{success}</p>}
                         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
                             <input
                                 type="email"
@@ -112,9 +118,11 @@ export default function Signin() {
                             />
                             <button
                                 type="submit"
-                                className="bg-blue-600 text-white p-4 rounded-lg hover:bg-blue-700 transition-colors"
+                                className={`flex items-center justify-center bg-blue-600 text-white p-4 rounded-lg hover:bg-blue-700 transition-colors ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                disabled={loading}
                             >
-                                Sign In
+                                {loading ? <FaSpinner className="animate-spin mr-2" /> : null}
+                                {loading ? 'Signing In...' : 'Sign In'}
                             </button>
                         </form>
                         <div className="flex flex-col items-center mt-8">

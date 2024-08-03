@@ -29,7 +29,7 @@ export default function VerifyEmail() {
             if (response.ok) {
                 setMessage("Email verified successfully!");
                 setTimeout(() => {
-                    router.push("/auth/signin");
+                    router.push("/auth/sign-in");
                 }, 2000);
             } else {
                 setError(data.error);
