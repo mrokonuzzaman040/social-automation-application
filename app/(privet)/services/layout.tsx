@@ -43,7 +43,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         <FaHome className="mr-3" /> Home Automation
                     </a>
                     <a
-                        href="/services/email"
+                        href="/services/email-campaign"
                         className="flex items-center text-gray-700 hover:text-indigo-600 p-2 rounded-md transition"
                     >
                         <FaEnvelope className="mr-3" /> Email Campaigns

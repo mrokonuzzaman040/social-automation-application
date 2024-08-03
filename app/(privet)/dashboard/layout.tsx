@@ -41,7 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         <FaHome className="mr-3" /> Home Automation
                     </a>
                     <a
-                        href="/services/email"
+                        href="/services/email-campaign"
                         className="flex items-center text-gray-700 hover:text-indigo-600 p-2 rounded-md transition"
                     >
                         <FaEnvelope className="mr-3" /> Email Campaigns
@@ -91,7 +91,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                                 {isProfileDropdownOpen && (
                                     <div className="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-md z-10">
                                         <a
-                                            href="#"
+                                            href="/dashboard/profile"
                                             className="flex px-4 py-2 text-gray-700 hover:bg-gray-200 items-center"
                                         >
                                             <FaBell className="mr-2" />

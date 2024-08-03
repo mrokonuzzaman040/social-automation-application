@@ -2,16 +2,22 @@
 
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
-import Layout from "../../services/layout";
 import { FaEnvelope, FaUser } from "react-icons/fa";
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 
 export default function ProfilePage() {
     const { data: session, status } = useSession();
-    const [name, setName] = useState(session?.user?.name || "");
-    const [email, setEmail] = useState(session?.user?.email || "");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if (session?.user) {
+            setName(session.user.name || "");
+            setEmail(session.user.email || "");
+        }
+    }, [session]);
 
     if (status === "loading") {
         // Show loading state while session is being fetched
@@ -25,6 +31,7 @@ export default function ProfilePage() {
 
     const handleEditToggle = () => {
         setIsEditing((prev) => !prev);
+        setMessage(""); // Clear any existing messages when toggling edit mode
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -74,12 +81,10 @@ export default function ProfilePage() {
 
                     {/* User Info */}
                     <div>
-                        <h2 className="text-2xl font-bold">
-                            {session.user?.name || "User"}
-                        </h2>
+                        <h2 className="text-2xl font-bold">{name || "User"}</h2>
                         <p className="text-gray-600">
                             <FaEnvelope className="inline-block mr-2" />
-                            {session.user?.email}
+                            {email}
                         </p>
                     </div>
                 </div>
