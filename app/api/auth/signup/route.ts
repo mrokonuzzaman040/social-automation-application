@@ -1,3 +1,4 @@
+// pages/api/auth/signup.ts
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/mongodb";
