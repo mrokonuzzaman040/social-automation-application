@@ -1,6 +1,6 @@
-// utils/mailer.ts
 import nodemailer from "nodemailer";
 
+// Create a transporter using the SMTP transport
 const transporter = nodemailer.createTransport({
   service: process.env.EMAIL_SERVICE,
   auth: {
@@ -9,10 +9,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Function to send a verification email
 export const sendVerificationEmail = async (to: string, code: string) => {
+  // Define the email options
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to,
+    to, // Recipient's email address
     subject: "Email Verification",
     html: `
       <!DOCTYPE html>
@@ -23,20 +25,7 @@ export const sendVerificationEmail = async (to: string, code: string) => {
         <title>Email Confirmation</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style type="text/css">
-          @media screen {
-            @font-face {
-              font-family: 'Source Sans Pro';
-              font-style: normal;
-              font-weight: 400;
-              src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff) format('woff');
-            }
-            @font-face {
-              font-family: 'Source Sans Pro';
-              font-style: normal;
-              font-weight: 700;
-              src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff) format('woff');
-            }
-          }
+          /* Add your email styles here */
           body,
           table,
           td,
@@ -129,7 +118,7 @@ export const sendVerificationEmail = async (to: string, code: string) => {
                           <table border="0" cellpadding="0" cellspacing="0">
                             <tr>
                               <td align="center" bgcolor="#4CAF50" style="border-radius: 6px;">
-                                <a href="${process.env.BASE_URL}/auth/verify-email?code=${code}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Verify Email</a>
+                                <a href="${process.env.BASE_URL}/auth/verify-email?code=${code}&email=${to}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Verify Email</a>
                               </td>
                             </tr>
                           </table>
@@ -141,7 +130,7 @@ export const sendVerificationEmail = async (to: string, code: string) => {
                 <tr>
                   <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                     <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-                    <p style="margin: 0;"><a href="${process.env.BASE_URL}/auth/verify-email?code=${code}" target="_blank">${process.env.BASE_URL}/auth/verify-email?code=${code}</a></p>
+                    <p style="margin: 0;"><a href="${process.env.BASE_URL}/auth/verify-email?code=${code}&email=${to}" target="_blank">${process.env.BASE_URL}/auth/verify-email?code=${code}&email=${to}</a></p>
                   </td>
                 </tr>
                 <tr>
@@ -184,6 +173,7 @@ export const sendVerificationEmail = async (to: string, code: string) => {
   };
 
   try {
+    // Send the email using the transporter
     await transporter.sendMail(mailOptions);
     console.log(`Verification email sent to ${to}`);
   } catch (error) {

@@ -1,36 +1,42 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/lib/mongodb"; // Function to connect to MongoDB
-import User from "@/models/User"; // Mongoose User model
+import { NextRequest, NextResponse } from "next/server";
+import dbConnect from "@/lib/mongodb";
+import User from "@/models/User";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  await dbConnect(); // Ensure connection to the database
+export async function POST(req: NextRequest) {
+  await dbConnect();
 
-  if (req.method === "POST") {
-    const { code } = req.body;
+  try {
+    const { code, email } = await req.json();
 
-    try {
-      // Find user with the given verification code
-      const user = await User.findOne({ verificationCode: code });
-
-      if (!user) {
-        return res.status(400).json({ error: "Invalid verification code" });
-      }
-
-      // Mark user as verified and clear the verification code
-      user.isVerified = true;
-      user.verificationCode = null;
-      await user.save();
-
-      res.status(200).json({ message: "Email verified successfully" });
-    } catch (error) {
-      console.error("Verification error:", error);
-      res.status(500).json({ error: "Internal server error" });
+    if (!code || !email) {
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
-  } else {
-    res.setHeader("Allow", ["POST"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+
+    // Find the user with the given email and verification code
+    const user = await User.findOne({ email, verificationCode: code });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Invalid code or email" },
+        { status: 400 }
+      );
+    }
+
+    // Update the user as verified using update method to avoid validation error
+    await User.updateOne(
+      { email },
+      { $set: { isVerified: true, verificationCode: null } }
+    );
+
+    return NextResponse.json(
+      { message: "Email verified successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error verifying email:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
