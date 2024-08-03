@@ -17,6 +17,7 @@ const Navbar = () => {
         setIsDrawerOpen(!isDrawerOpen);
     };
 
+    // Drawer variants
     const drawerVariants = {
         open: {
             x: 0,
