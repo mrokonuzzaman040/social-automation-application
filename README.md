@@ -40,7 +40,7 @@ git clone https://github.com/mrokonuzzaman040/social-automation-application.git
 ```
 2. Navigate to the project directory:
 ```bash
-cd social-media-automation
+cd social-automation-application
 ```
 3. Install necessary packages:
 ```bash
