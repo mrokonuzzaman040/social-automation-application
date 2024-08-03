@@ -1,12 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaSignInAlt, FaUserPlus, FaBars, FaTimes } from "react-icons/fa";
+import { FaSignInAlt, FaUserPlus, FaBars, FaTimes, FaTachometerAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const { data: session, status } = useSession();
 
+    // Check if user is authenticated
+    const isAuthenticated = status === "authenticated";
+
+    // Toggle drawer
     const toggleDrawer = () => {
         setIsDrawerOpen(!isDrawerOpen);
     };
@@ -44,13 +50,30 @@ const Navbar = () => {
                     Price
                 </a>
                 <div className="flex items-center space-x-3">
-                    <a href="/auth/sign-in" className="flex items-center hover:text-indigo-200 transition-colors">
-                        <FaSignInAlt className="mr-1" /> Sign In
-                    </a>
-                    <span>|</span>
-                    <a href="/auth/sign-up" className="flex items-center hover:text-indigo-200 transition-colors">
-                        <FaUserPlus className="mr-1" /> Sign Up
-                    </a>
+                    {isAuthenticated ? (
+                        <a
+                            href="/dashboard"
+                            className="flex items-center hover:text-indigo-200 transition-colors"
+                        >
+                            <FaTachometerAlt className="mr-1" /> Dashboard
+                        </a>
+                    ) : (
+                        <>
+                            <a
+                                href="/auth/sign-in"
+                                className="flex items-center hover:text-indigo-200 transition-colors"
+                            >
+                                <FaSignInAlt className="mr-1" /> Sign In
+                            </a>
+                            <span>|</span>
+                            <a
+                                href="/auth/sign-up"
+                                className="flex items-center hover:text-indigo-200 transition-colors"
+                            >
+                                <FaUserPlus className="mr-1" /> Sign Up
+                            </a>
+                        </>
+                    )}
                 </div>
             </div>
             <FaBars
@@ -74,7 +97,7 @@ const Navbar = () => {
                 <ul className="mt-4 space-y-4 pl-6">
                     <li>
                         <a
-                            href="#"
+                            href="/"
                             className="text-white text-lg hover:text-indigo-200 transition-colors"
                             onClick={toggleDrawer}
                         >
@@ -99,24 +122,38 @@ const Navbar = () => {
                             Price
                         </a>
                     </li>
-                    <li>
-                        <a
-                            href="#"
-                            className="text-white text-lg hover:text-indigo-200 transition-colors"
-                            onClick={toggleDrawer}
-                        >
-                            Sign In
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            className="text-white text-lg hover:text-indigo-200 transition-colors"
-                            onClick={toggleDrawer}
-                        >
-                            Sign Up
-                        </a>
-                    </li>
+                    {isAuthenticated ? (
+                        <li>
+                            <a
+                                href="/dashboard"
+                                className="text-white text-lg hover:text-indigo-200 transition-colors"
+                                onClick={toggleDrawer}
+                            >
+                                Dashboard
+                            </a>
+                        </li>
+                    ) : (
+                        <>
+                            <li>
+                                <a
+                                    href="/auth/sign-in"
+                                    className="text-white text-lg hover:text-indigo-200 transition-colors"
+                                    onClick={toggleDrawer}
+                                >
+                                    Sign In
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="/auth/sign-up"
+                                    className="text-white text-lg hover:text-indigo-200 transition-colors"
+                                    onClick={toggleDrawer}
+                                >
+                                    Sign Up
+                                </a>
+                            </li>
+                        </>
+                    )}
                 </ul>
             </motion.div>
         </nav>
