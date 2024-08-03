@@ -4,8 +4,8 @@ import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
   service: process.env.EMAIL_SERVICE,
   auth: {
-    user: process.env.EMAIL_USER, // Your email
-    pass: process.env.EMAIL_PASS, // Your email password or app password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -14,7 +14,7 @@ export const sendVerificationEmail = async (to: string, code: string) => {
   // Define the email options
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to, // Recipient's email address
+    to,
     subject: "Email Verification",
     html: `
       <!DOCTYPE html>
