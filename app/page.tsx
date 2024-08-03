@@ -3,6 +3,7 @@ import BackgroundAnimation from './components/BackgroundAnimation';
 import Navbar from './components/Navbar';
 import UseCaseSection from './components/UseCaseSection';
 import TrustedIconsCarousel from './components/TrustedIconsCarousel';
+import WorkflowAutomationSection from './components/WorkflowAutomationSection';
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
         <main className="flex flex-col justify-start items-stretch text-white w-full">
           <UseCaseSection />
           <TrustedIconsCarousel />
+          <WorkflowAutomationSection />
         </main>
       </div>
     </div>
