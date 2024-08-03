@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import UseCaseSection from './components/UseCaseSection';
 import TrustedIconsCarousel from './components/TrustedIconsCarousel';
 import WorkflowAutomationSection from './components/WorkflowAutomationSection';
+import FeaturesCarousel from './components/FeaturesCarousel';
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
           <UseCaseSection />
           <TrustedIconsCarousel />
           <WorkflowAutomationSection />
+          <FeaturesCarousel />
         </main>
       </div>
     </div>
