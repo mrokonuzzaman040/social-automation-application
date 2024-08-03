@@ -14,7 +14,7 @@ export default withAuth(
 
     // Check if the user is signed in and verified
     if (token) {
-      const isVerified = token.isVerified; // Access the isVerified field from the token
+      const isVerified = token.isVerified;
 
       // Redirect unverified users trying to access the dashboard
       if (!isVerified && pathname.startsWith("/dashboard")) {
