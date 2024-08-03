@@ -1,10 +1,10 @@
 import React from 'react';
 import BackgroundAnimation from './components/BackgroundAnimation';
-import Navbar from './components/Navbar';
 import UseCaseSection from './components/UseCaseSection';
 import TrustedIconsCarousel from './components/TrustedIconsCarousel';
 import WorkflowAutomationSection from './components/WorkflowAutomationSection';
 import FeaturesCarousel from './components/FeaturesCarousel';
+import Navbar from './components/Navbar';
 
 const Home = () => {
   return (

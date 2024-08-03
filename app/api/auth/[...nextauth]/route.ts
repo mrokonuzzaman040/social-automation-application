@@ -1,14 +1,14 @@
 import NextAuth, { NextAuthOptions, User as NextAuthUser } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import LinkedInProvider from "next-auth/providers/linkedin";
 import InstagramProvider from "next-auth/providers/instagram";
+import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import dbConnect from "../../../lib/mongodb";
-import User from "../../../models/User";
+import dbConnect from "../../../../lib/mongodb";
+import User, { IUser } from "../../../../models/User";
 
-// Extend NextAuth User to include additional properties
+// Define the UserWithId interface extending NextAuthUser
 interface UserWithId extends NextAuthUser {
   id: string;
 }
@@ -67,7 +67,8 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, token }) {
       if (session.user) {
-        (session.user as UserWithId).id = token.sub!;
+        // @ts-ignore
+        session.user.id = token.sub!;
       }
       return session;
     },
@@ -80,4 +81,5 @@ const authOptions: NextAuthOptions = {
   },
 };
 
-export default NextAuth(authOptions);
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

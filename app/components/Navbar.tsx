@@ -31,7 +31,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="flex items-center justify-between p-4 ">
+        <nav className="flex items-center justify-between p-4">
             <div className="text-white text-2xl font-bold">Logo</div>
             <div className="hidden md:flex items-center space-x-6 text-white">
                 <a href="#" className="hover:text-indigo-200 transition-colors">
@@ -44,11 +44,11 @@ const Navbar = () => {
                     Price
                 </a>
                 <div className="flex items-center space-x-3">
-                    <a href="#" className="flex items-center hover:text-indigo-200 transition-colors">
+                    <a href="/auth/sign-in" className="flex items-center hover:text-indigo-200 transition-colors">
                         <FaSignInAlt className="mr-1" /> Sign In
                     </a>
                     <span>|</span>
-                    <a href="#" className="flex items-center hover:text-indigo-200 transition-colors">
+                    <a href="/auth/sign-up" className="flex items-center hover:text-indigo-200 transition-colors">
                         <FaUserPlus className="mr-1" /> Sign Up
                     </a>
                 </div>
