@@ -5,8 +5,8 @@ import LinkedInProvider from "next-auth/providers/linkedin";
 import InstagramProvider from "next-auth/providers/instagram";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import dbConnect from "../../../../lib/mongodb";
-import User, { IUser } from "../../../../models/User";
+import dbConnect from "@/lib/mongodb";
+import User, { IUser } from "@/models/User";
 
 // Define the UserWithId interface extending NextAuthUser
 interface UserWithId extends NextAuthUser {

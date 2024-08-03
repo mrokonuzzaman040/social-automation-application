@@ -34,7 +34,7 @@ const Navbar = () => {
         <nav className="flex items-center justify-between p-4">
             <div className="text-white text-2xl font-bold">Logo</div>
             <div className="hidden md:flex items-center space-x-6 text-white">
-                <a href="#" className="hover:text-indigo-200 transition-colors">
+                <a href="/" className="hover:text-indigo-200 transition-colors">
                     Home
                 </a>
                 <a href="#" className="hover:text-indigo-200 transition-colors">
