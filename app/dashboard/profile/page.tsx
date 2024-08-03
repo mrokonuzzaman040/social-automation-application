@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import Layout from "../layout";
 import { FaEnvelope, FaUser } from "react-icons/fa";
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent } from "react";
 
 export default function ProfilePage() {
     const { data: session, status } = useSession();
@@ -12,8 +12,6 @@ export default function ProfilePage() {
     const [email, setEmail] = useState(session?.user?.email || "");
     const [isEditing, setIsEditing] = useState(false);
     const [message, setMessage] = useState("");
-    const [profileImage, setProfileImage] = useState<File | null>(null);
-    const [previewImage, setPreviewImage] = useState(session?.user?.image || "");
 
     if (status === "loading") {
         // Show loading state while session is being fetched
@@ -27,15 +25,6 @@ export default function ProfilePage() {
 
     const handleEditToggle = () => {
         setIsEditing((prev) => !prev);
-        setMessage("");
-    };
-
-    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
-            setProfileImage(file);
-            setPreviewImage(URL.createObjectURL(file));
-        }
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -47,30 +36,13 @@ export default function ProfilePage() {
             setIsEditing(false);
         }, 1000);
 
-        // Example of handling the image file
-        if (profileImage) {
-            const formData = new FormData();
-            formData.append("name", name);
-            formData.append("email", email);
-            formData.append("profileImage", profileImage);
-
-            // Perform a POST request to update the profile picture and details
-            // await fetch('/api/profile/update', {
-            //   method: 'POST',
-            //   body: formData,
-            // });
-
-            // Simulate success message
-            setMessage("Profile updated successfully!");
-            setIsEditing(false);
-        } else {
-            // Handle updates without image change
-            // await fetch('/api/profile/update', {
-            //   method: 'POST',
-            //   headers: { 'Content-Type': 'application/json' },
-            //   body: JSON.stringify({ name, email }),
-            // });
-        }
+        // You can implement real API requests here to update the user's profile in the backend
+        // Example:
+        // await fetch('/api/profile/update', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ name, email }),
+        // });
     };
 
     return (
@@ -89,9 +61,9 @@ export default function ProfilePage() {
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", stiffness: 300 }}
                     >
-                        {previewImage ? (
+                        {session.user?.image ? (
                             <img
-                                src={previewImage}
+                                src={session.user.image}
                                 alt="Profile"
                                 className="w-full h-full object-cover"
                             />
@@ -147,19 +119,6 @@ export default function ProfilePage() {
                             disabled={!isEditing}
                         />
                     </div>
-                    {isEditing && (
-                        <div className="mb-4">
-                            <label className="block text-gray-700 mb-1">
-                                Profile Picture
-                            </label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                className="w-full"
-                            />
-                        </div>
-                    )}
                     {isEditing ? (
                         <div className="flex space-x-4">
                             <button

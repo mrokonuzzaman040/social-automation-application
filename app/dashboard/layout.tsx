@@ -35,7 +35,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     } md:translate-x-0 md:relative w-64 bg-white shadow-lg transition-transform duration-300 ease-in-out`}
             >
                 <div className="flex items-center justify-center h-20 border-b">
-                    <h1 className="text-xl font-bold">Dashboard</h1>
+                    <a href="/dashboard">
+                        <h1 className="text-xl font-bold">Dashboard</h1>
+                    </a>
                 </div>
                 <div className="flex-grow flex flex-col justify-between">
                     <nav className="flex-1 px-4 py-2">
