@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
-import Layout from "../layout";
+import Layout from "../../services/layout";
 import { FaEnvelope, FaUser } from "react-icons/fa";
 import { useState, FormEvent } from "react";
 

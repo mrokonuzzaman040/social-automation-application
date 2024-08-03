@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import {
     FaSignOutAlt,
+    FaUser,
+    FaChartLine,
     FaCog,
     FaChevronDown,
     FaBell,
